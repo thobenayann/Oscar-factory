@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 
-import { Navigate, Link as RRDLink, useNavigate } from 'react-router-dom';
+import { Link as RRDLink, useNavigate } from 'react-router-dom';
 
 import { useUserContext } from '../../contexts/user';
 
@@ -25,16 +24,16 @@ type UserSigninProps = {
 
 function UserSignin({ showUserCreated }: UserSigninProps) {
     const { user, setUser } = useUserContext();
-    const [error, setError] = useState(false);
 
     const navigate = useNavigate();
 
 
-    const [getMyFavorite, { data }] = useLazyQuery<GetMyFavoriteMovies>(GET_MY_FAVORITES, {
+    const [getMyFavorite] = useLazyQuery<GetMyFavoriteMovies>(GET_MY_FAVORITES, {
+        fetchPolicy: 'cache-and-network',
         onCompleted: (favorites) => {
-            console.log(favorites, 'MY FAVORITES');
+
             const myIdOfFavorite = favorites.getMyFavoriteMovies.map((f: any) => f.id);
-            console.log(myIdOfFavorite, 'MON NOUVEL ARRAY');
+
             setUser({ ...user, myFavorites: myIdOfFavorite });
             // redirgie vers le signin
             navigate('/');
@@ -44,7 +43,7 @@ function UserSignin({ showUserCreated }: UserSigninProps) {
 
     // on utilise pas loading ni error mais on le fera bientot
     // useLazyQuery nous permet de lancer notre requete quand on veut.
-    const [getUser, { loading }] = useLazyQuery<Signin, SigninVariables>(USER_SIGNIN, {
+    const [getUser, {error}] = useLazyQuery<Signin, SigninVariables>(USER_SIGNIN, {
         onCompleted: (data) => {
 
             if (!data.signin) {
@@ -56,18 +55,6 @@ function UserSignin({ showUserCreated }: UserSigninProps) {
             getMyFavorite();
         }
     })
-
-    // destructuration en js 
-
-    // const user2 = {
-    //     username: 'david',
-    //     mdp: 'toto',
-    //     logged: false,
-    // }
-
-    // const user3 = { ...user2, logged: true, mdp: 'tata' };
-
-    // console.log(user3, 'user3')
 
     return (
         <Container component="main" maxWidth="xs">
@@ -92,7 +79,6 @@ function UserSignin({ showUserCreated }: UserSigninProps) {
                     sx={{ mt: 1 }}
                     onSubmit={(event: React.SyntheticEvent) => {
                         event.preventDefault();
-                        setError(false);
                         getUser({
                             variables: {
                                 email: user.email,
@@ -100,7 +86,7 @@ function UserSignin({ showUserCreated }: UserSigninProps) {
                             }
                         })
                     }}>
-                    {error && <Alert severity="error">Wrong credentials</Alert>}
+                    {error && <Alert severity="error">{error.message || error.graphQLErrors}</Alert>}
                     <TextField
                         margin="normal"
                         required

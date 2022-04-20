@@ -8,9 +8,10 @@ import {
     CardContent,
     TextField,
     Typography,
-    Button
+    Button,
+    CircularProgress
 } from '@mui/material';
-
+import defaultImage from '../../assets/cinema-default-img.jpg';
 import { useQuery } from '@apollo/client';
 
 import { Link } from 'react-router-dom';
@@ -41,20 +42,6 @@ function MovieList() {
         moviesToDisplay = movieData ? movieData.getAllMovies : [];
     }
 
-    // // changement du titre de la page
-    // // si les films ont changé, je modifie le titre
-    // useEffect(() => {
-    //     if (movies !== null) {
-    //         console.log('modification du titre');
-    //         document.title = `O'scar - ${movies.length} films`;
-    //     }
-    // }, [movies]); // mon effet ne sera exécuté que si le tableau de films a changé.
-
-
-    if (loading) {
-        return <h1>Loading...</h1>
-    }
-
     return (
         <Container component="main" maxWidth="lg">
             {/* Bouton ajout d'un film */}
@@ -82,6 +69,10 @@ function MovieList() {
             </Grid>
             {/* Liste des film */}
             <Grid container alignItems="stretch" justifyContent="center">
+                { loading && (
+                    <CircularProgress />
+                    )   
+                }
                 {
                     moviesToDisplay?.map((movie: any) => (
                         <Grid item m={1} xs={12} md={3} key={movie.id} component={Card} style={{ position: "relative" }}>
@@ -91,7 +82,7 @@ function MovieList() {
                             >
                                 <CardMedia
                                     component="img"
-                                    image={movie.image}
+                                    image={(movie.image !== 'N/A') ? movie.image : defaultImage}
                                     alt={movie.title}
                                 />
                                 <CardContent>

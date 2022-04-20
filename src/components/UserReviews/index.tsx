@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { Container, Typography } from '@mui/material';
+import { Container, Typography, CircularProgress, Alert } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { USER_REVIEWS } from '../../apollo/queries/userReviews';
 import { GetReviewsByUser } from '../../apollo/queries/__generated__/GetReviewsByUser';
@@ -15,20 +15,14 @@ function UserReviews() {
         }
     });
 
-    console.log(reviews, 'DATA');
-
-    // récupération du user correspondant à l'id dans l'url
-    // const urlUser = `${process.env.REACT_APP_OSCAR_API_URL}/api/users/${userId}`;
-    // const [user] = useApi<User>(urlUser);
-
-    if (loading) {
-        return <h1>Loading...</h1>
-    }
-
     return (
         <Container component="main" maxWidth="lg">
             {reviews?.getReviewsByUser.length === 0 ? <Typography variant="h3" sx={{ mb: 1 }}>{reviews?.user?.username} n'a pas encore soumis de review</Typography> :
                 <Typography variant="h3" sx={{ mb: 1 }}>Toutes les critiques de {reviews?.user?.username}</Typography>}
+                { loading && (
+                <CircularProgress color="success" />
+                )   
+            }
             {
                 reviews?.getReviewsByUser.map((review) => (
                     // dans mon map, je n'oublie pas de donner la key
@@ -44,6 +38,11 @@ function UserReviews() {
                         titleToDisplay="movieTitle"
                     />
                 ))
+            }
+            {
+                reviews && reviews.getReviewsByUser.length < 1 && (
+                    <Alert sx={{ mt: 8}} severity="info">Cet utilisateur n'a pas encore rédigé de commentaire</Alert>
+                )
             }
         </Container>
     )
