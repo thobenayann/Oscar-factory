@@ -20,7 +20,7 @@ function UserReviews() {
             {reviews?.getReviewsByUser.length === 0 ? <Typography variant="h3" sx={{ mb: 1 }}>{reviews?.user?.username} n'a pas encore soumis de review</Typography> :
                 <Typography variant="h3" sx={{ mb: 1 }}>Toutes les critiques de {reviews?.user?.username}</Typography>}
                 { loading && (
-                <CircularProgress color="success" />
+                <CircularProgress />
                 )   
             }
             {

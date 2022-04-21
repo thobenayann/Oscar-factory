@@ -22,7 +22,7 @@ function CategoryDetail() {
             <Typography variant="h2">Les films de la catégorie {params.categoryName}</Typography>
             <Grid container alignItems="stretch" justifyContent="center">
                 { loading && (
-                    <CircularProgress color="success" />
+                    <CircularProgress />
                     )   
                 }
                 {

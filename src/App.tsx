@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import {
@@ -18,9 +18,10 @@ import NotFound from './components/NotFound';
 import { useUserContext } from './contexts/user';
 
 import { User } from './types';
-import useLocalStorage from './hooks/useLocalStorage';
+
 import CategoriesList from './components/Categories';
 import CategoryDetail from './components/CategoryDetail';
+import MostLikedMovies from './components/MostLikedMovies';
 
 const emptyUser: User = {
   // nos 3 champs controlés pour signup / signin
@@ -82,6 +83,7 @@ function App() {
         <Route path="/categories/:categoryId/:categoryName" element={<CategoryDetail />} />
         <Route path="/movies/add" element={<MovieAdd />} />
         <Route path="/movies/:id" element={<MovieDetail />} />
+        <Route path="/most-liked-movies" element={<MostLikedMovies />} />
         <Route path="/user/:userId/reviews" element={<UserReviews />} />
         {/* Si aucune route n'est atteinte, alors je veux atteindre la route 404 */}
         <Route path="*" element={<NotFound />} />

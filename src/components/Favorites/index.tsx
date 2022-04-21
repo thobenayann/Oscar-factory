@@ -25,9 +25,8 @@ const Favorite = ({ movieId, style }: FavoriteProps) => {
 
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
-  const [addToFavorite, { error, data, loading }] = useMutation<addToFavorite, addToFavoriteVariables>(ADD_TO_MY_FAVORITES, {
+  const [addToFavorite] = useMutation<addToFavorite, addToFavoriteVariables>(ADD_TO_MY_FAVORITES, {
     onCompleted: (data) => {
-      console.log(data)
       setIsFavorite(true);
       setUser({
         ...user,
@@ -41,7 +40,6 @@ const Favorite = ({ movieId, style }: FavoriteProps) => {
 
 
   const handleFavorite = () => {
-    console.log("j'ai cliqué")
     addToFavorite({ variables: { movieId } });
   }
 
@@ -57,8 +55,6 @@ const Favorite = ({ movieId, style }: FavoriteProps) => {
 
 
   }, [user.myFavorites, movieId]);
-
-  console.log(user, 'DONNEES DE USER')
 
   // j'initialise une constante Component qui sera soit mon coeur plein ou mon coeur vide 
   // suivant si je suis en favoris ou pas.

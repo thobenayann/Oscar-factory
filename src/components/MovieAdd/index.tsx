@@ -37,7 +37,6 @@ function MovieAdd() {
 
     const [addMovie, { error }] = useMutation<addMovie, addMovieVariables>(ADD_MOVIE, {
         onCompleted: (data) => {
-            console.log(data, 'MOVIE ADDED')
             navigate(`/movies/${data.createMovie?.id}`);
         }
     })
@@ -53,10 +52,7 @@ function MovieAdd() {
     // Gestion des catégories à associer
     const [selectedCategories, setSelectedCategories] = useState<Array<Category>>([]);
 
-    console.log(selectedCategories, 'FILM SELECTIONNE');
-
     // Gestion de la soumission du formulaire
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const navigate = useNavigate();
 
     async function handleSubmit(event: React.SyntheticEvent) {
@@ -99,7 +95,7 @@ function MovieAdd() {
                 component="form"
                 onSubmit={handleSubmit}
             >
-                {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+                {error && <Alert severity="error">{error.message || error.graphQLErrors}</Alert>}
                 <Autocomplete
                     options={searchData?.searchImdb ?? []}
                     // champ controlé de la partie recherche

@@ -28,7 +28,7 @@ export type MovieFromOscar = {
     image: string,
     title: string,
     release_year: string,
-    imdb_id: string
+    imdb_id?: string
 }
 
 export type Review = {

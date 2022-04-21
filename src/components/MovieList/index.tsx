@@ -2,16 +2,11 @@ import { useState } from 'react';
 import {
     Container,
     Grid,
-    Card,
-    CardActionArea,
-    CardMedia,
-    CardContent,
     TextField,
-    Typography,
     Button,
-    CircularProgress
+    CircularProgress,
+    Alert
 } from '@mui/material';
-import defaultImage from '../../assets/cinema-default-img.jpg';
 import { useQuery } from '@apollo/client';
 
 import { Link } from 'react-router-dom';
@@ -19,15 +14,15 @@ import { Link } from 'react-router-dom';
 import { useUserContext } from '../../contexts/user';
 import { GET_ALL_MOVIES } from '../../apollo/queries/allMovies';
 import { GetAllMovies } from './__generated__/GetAllMovies';
-import Favorite from '../Favorites';
+
+// components
+import Movie from './Movie';
 
 function MovieList() {
     const { user } = useUserContext();
 
     // destructuration d'objet + renommage de la clé data en movieData
     const { error, loading, data: movieData } = useQuery<GetAllMovies>(GET_ALL_MOVIES, { fetchPolicy: 'cache-and-network' });
-
-    console.log('retour GRAPHQL : ', movieData, error, loading);
 
     const [searchText, setSearchText] = useState('');
 
@@ -73,29 +68,10 @@ function MovieList() {
                     <CircularProgress />
                     )   
                 }
+                {error && <Alert severity="error">{error.message || error.graphQLErrors}</Alert>}
                 {
                     moviesToDisplay?.map((movie: any) => (
-                        <Grid item m={1} xs={12} md={3} key={movie.id} component={Card} style={{ position: "relative" }}>
-                            <CardActionArea
-                                component={Link}
-                                to={`/movies/${movie.id}`}
-                            >
-                                <CardMedia
-                                    component="img"
-                                    image={(movie.image !== 'N/A') ? movie.image : defaultImage}
-                                    alt={movie.title}
-                                />
-                                <CardContent>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                        {movie.title}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        {movie.release_year}
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
-                            <Favorite movieId={movie.id} style />
-                        </Grid>
+                        <Movie key={movie.id} movie={movie} movieId={movie.id}/>
                     ))
                 }
             </Grid>

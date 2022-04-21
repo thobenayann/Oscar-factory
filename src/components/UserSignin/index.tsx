@@ -50,7 +50,6 @@ function UserSignin({ showUserCreated }: UserSigninProps) {
                 return;
             }
 
-            // console.log(data, 'USER INFO DANS MON ON COMPLETED')
             setUser({ ...user, ...data.signin, token: data.signin.token?.token, logged: true } as User);
             getMyFavorite();
         }

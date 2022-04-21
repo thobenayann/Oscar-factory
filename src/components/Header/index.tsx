@@ -45,6 +45,7 @@ function Header({ logout, onThemeButtonClick, isDarkMode }: HeaderProps) {
                 </Button>
                 {/* si je suis connecté, ben je peux me déconnecter */}
                 <div>
+                    <Button color="inherit" component={Link} to="/most-liked-movies">Les plus populaires</Button>
                     <Button color="inherit" component={Link} to="/categories">Catégories</Button>
                     {
                         user.logged
