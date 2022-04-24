@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { cyan, amber } from '@mui/material/colors';
 
 import {
   CssBaseline, ThemeProvider, createTheme
@@ -35,7 +36,7 @@ const emptyUser: User = {
 
 function App() {
   // gestion de l'utilisateur
-  const { user, setUser } = useUserContext();
+  const { setUser } = useUserContext();
   // theme sombre ou pas ?
   const [isDarkModeState, setIsDarkModeState] = useState(false);
 
@@ -43,10 +44,12 @@ function App() {
     setUser(emptyUser);
   }
 
-
+  // const primary = teal[800];
   // création d'un theme
   const darkTheme = createTheme({
     palette: {
+      primary: { main: cyan[600], contrastText: '#fff' },
+      secondary: amber,
       mode: isDarkModeState ? 'dark' : 'light'
     },
   });

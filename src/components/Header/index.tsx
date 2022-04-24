@@ -9,7 +9,7 @@ import MaterialUISwitch from '../Tools/MaterialUISwitch';
 
 import { useUserContext } from '../../contexts/user';
 
-import logoSvg from '../../assets/logo.svg';
+import logoSvg from '../../assets/logo-oscar-factory.svg';
 
 type HeaderProps = {
     // une fonction qui ne prend pas de parametre, et qui ne renvoie rien
@@ -32,9 +32,10 @@ function Header({ logout, onThemeButtonClick, isDarkMode }: HeaderProps) {
                     <img
                         alt="logo oscar"
                         src={logoSvg}
-                        height="50px"
-                        style={{ margin: "1rem 0px 0.8rem 0" }}
+                        height="80px"
+                        style={{ margin: "0.2rem 0px 0.2rem 0" }}
                     />
+                    <a style={{ display: 'none' }} href="https://www.flaticon.com/free-icons/oscar" title="oscar icons">Oscar icons created by Freepik - Flaticon</a>
                 </Link>
                 <Button
                     color="inherit"

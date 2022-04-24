@@ -23,24 +23,6 @@ function MostLikedMovies() {
 
     const [favoriteByUser, setFavoriteByUser] = useState<Array<FavoriteByUser>>();
 
-    // on enleve les duplicas de film dans notre array aec la méthode new Set qui cherche les objets identiques et les suppriment
-    // on obtient un tableau de tous les films en favoris sans DOUBLON
-    // l'utilisation de Array.from nous permet d'éviter une erreur typescript avec le new Set
-    // https://stackoverflow.com/questions/33464504/using-spread-syntax-and-new-set-with-typescript
-    const allMovies = [...Array.from(new Set(data?.getAllFavorites.map((favorite: any) => favorite.movie)))];
-
-    // on récupère les infos des utilisateurs par rapport à notre array de film en filtrant par l'id d'un film
-    // on crée un tout nouveau tableau d'objet avec la méthode map
-    // je peux définir les clés de mon objet ici movie et user comme l'original
-    const mergedInformations = allMovies.map((movie) => {
-        return {
-        movie,
-          // je filtre par movie id de mon array sans doublon (allMovies) et mon array original (date.getAllFavorites)
-          // le filtre me retourne un array dans lequel j'ai besoin de quoi ? uniquement les informations des utilisateurs
-        user: data?.getAllFavorites.filter((m) => m.movie.id === movie.id).map((m) => m.user),
-        }
-    });
-
     useEffect(() => {
         // on enleve les duplicas de film dans notre array aec la méthode new Set qui cherche les objets identiques et les suppriment
         // on obtient un tableau de tous les films en favoris sans DOUBLON

@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import React from 'react';
 
 import { Navigate, Link as RRDLink, useNavigate } from 'react-router-dom';
 
@@ -18,7 +17,7 @@ import { Signup, SignupVariables } from '../../apollo/mutations/__generated__/Si
 function UserSignup() {
     const { user, setUser } = useUserContext();
 
-    const [mutateSignup, { error, loading, data }] = useMutation<Signup, SignupVariables>(USER_SIGNUP, {
+    const [mutateSignup, { error }] = useMutation<Signup, SignupVariables>(USER_SIGNUP, {
         onCompleted: () => {
             navigate('/signin/userCreated');
             setUser({
@@ -125,12 +124,3 @@ function UserSignup() {
 }
 
 export default UserSignup;
-
-function useContext<T>(UserContext: any): { user: any; setUser: any; } {
-    throw new Error('Function not implemented.');
-}
-
-
-function UserContext<T>(UserContext: any): { user: any; setUser: any; } {
-    throw new Error('Function not implemented.');
-}

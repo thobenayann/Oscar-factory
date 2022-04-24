@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -8,7 +7,7 @@ import {
 
 import { useUserContext } from '../../contexts/user';
 
-import { MovieResult, Category, Nullable, MovieFromOscar } from '../../types';
+import { MovieResult, Category, Nullable } from '../../types';
 import { Navigate } from 'react-router';
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import { SearchImdb, SearchImdbVariables } from '../../apollo/queries/__generated__/SearchImdb';

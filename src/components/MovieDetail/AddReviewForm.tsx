@@ -1,4 +1,3 @@
-import axios, { AxiosRequestConfig } from 'axios';
 import { useState } from 'react';
 
 import { Rating, Button, TextField, Stack, Card, Typography, Box } from '@mui/material'

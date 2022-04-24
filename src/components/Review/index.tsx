@@ -4,13 +4,6 @@ import {
 } from '@mui/material';
 import { Link as RRDLink } from 'react-router-dom';
 
-import useApi from '../../hooks/useApi';
-
-import {
-    MovieFromOscar,
-    Review as ReviewType, User
-} from '../../types';
-
 import { GetMovieDetail_getMovie_reviews as reviewWithMovie } from '../../apollo/queries/__generated__/GetMovieDetail';
 import { GetReviewsByUser_getReviewsByUser as reviewWithUser } from '../../apollo/queries/__generated__/GetReviewsByUser';
 
