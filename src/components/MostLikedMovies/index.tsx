@@ -19,7 +19,9 @@ type FavoriteByUser = {
 function MostLikedMovies() {
     // récupération des films qui ont été mis en favoris
     // au chargement initial
-    const { loading, data } = useQuery<GetAllFavorites>(GET_ALL_FAVORITES);
+    const { loading, data } = useQuery<GetAllFavorites>(GET_ALL_FAVORITES, {
+        fetchPolicy: 'cache-and-network',
+    });
 
     const [favoriteByUser, setFavoriteByUser] = useState<Array<FavoriteByUser>>();
 
