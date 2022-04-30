@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useMutation } from '@apollo/client';
+
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Tooltip from '@mui/material/Tooltip';
-import { ADD_TO_MY_FAVORITES } from '../../apollo/mutations/addToMyFavorites';
-import { useMutation } from '@apollo/client';
-import { addToFavorite, addToFavoriteVariables } from '../../apollo/mutations/__generated__/addToFavorite';
+
 import { useUserContext } from '../../contexts/user';
+
+import { ADD_TO_MY_FAVORITES } from '../../apollo/mutations/addToMyFavorites';
+import { addToFavorite, addToFavoriteVariables } from '../../apollo/mutations/__generated__/addToFavorite';
+import { RemoveToMyFavorites, RemoveToMyFavoritesVariables } from '../../apollo/mutations/__generated__/RemoveToMyFavorites';
+import { REMOVE_TO_MY_FAVORITES } from '../../apollo/mutations/removeToMyFavorites';
 
 type FavoriteProps = {
   movieId: number,
@@ -32,15 +37,27 @@ const Favorite = ({ movieId, style }: FavoriteProps) => {
         ...user,
         myFavorites: [...user.myFavorites, data.addToMyFavorites?.id]
       })
-
-      // ajouter l'id du movie que l'on vient d'ajouter au favoris
-      // ou faire un refetch de getMyFavoriteMovies dans <UserSignin />
     }
   })
 
+  const [removeToFavorite] = useMutation<RemoveToMyFavorites, RemoveToMyFavoritesVariables>(REMOVE_TO_MY_FAVORITES, {
+    onCompleted: (data) => {
+      setIsFavorite(false);
+      setUser({
+        ...user,
+        myFavorites: user.myFavorites.filter(movieId => movieId !== data.removeToMyFavorites?.id)
+      })
+    }
+  })
 
-  const handleFavorite = () => {
-    addToFavorite({ variables: { movieId } });
+  const handleFavorite = (isFavorite: boolean) => {
+    if(!isFavorite) {
+      addToFavorite({ variables: { movieId } });
+    }
+    if(isFavorite) {
+      removeToFavorite({ variables: { movieId } });
+    }
+    
   }
 
   useEffect(() => {
@@ -62,7 +79,7 @@ const Favorite = ({ movieId, style }: FavoriteProps) => {
 
   return (
     <Tooltip title={isFavorite ? "Retirer de mes favoris" : "Ajouter à mes favoris"} placement="top">
-      <FavoriteMovie style={style ? styleCSS : {cursor: 'pointer'}} fontSize='large' color='error' onClick={() => handleFavorite()} />
+      <FavoriteMovie style={style ? styleCSS : {cursor: 'pointer'}} fontSize='large' color='error' onClick={() => handleFavorite(isFavorite)} />
     </Tooltip>
   )
 };
